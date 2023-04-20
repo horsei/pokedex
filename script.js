@@ -24,6 +24,56 @@ const colors = {
 const maintypes= Object.keys(colors)
 
 
+
+
+const form = document.querySelector('form');
+form.addEventListener('submit', function(event) {
+  event.preventDefault();
+
+  const searchInput = document.getElementById('search-input');
+  const searchQuery = searchInput.value.toLowerCase();
+
+  // Call a function to filter the Pokemon data and display the results
+});
+
+
+
+function displayPokemon(filteredPokemon) {
+  const pokemonContainer = document.getElementById('pokemon-container');
+  pokemonContainer.innerHTML = '';
+
+  filteredPokemon.forEach(function(pokemon) {
+    const pokemonCard = document.createElement('div');
+    pokemonCard.classList.add('pokemon-card');
+
+    const pokemonImage = document.createElement('img');
+    pokemonImage.src = pokemon.imageUrl;
+    pokemonImage.alt = pokemon.name;
+
+    const pokemonName = document.createElement('h2');
+    pokemonName.textContent = pokemon.name;
+
+    pokemonCard.appendChild(pokemonImage);
+    pokemonCard.appendChild(pokemonName);
+
+    pokemonContainer.appendChild(pokemonCard);
+  });
+}
+
+form.addEventListener('submit', function(event) {
+  event.preventDefault();
+
+  const searchInput = document.getElementById('search-input');
+  const searchQuery = searchInput.value.toLowerCase();
+
+  const filteredPokemon = pokemonData.filter(pokemon => {
+    return pokemon.name.toLowerCase().includes(searchQuery);
+  });
+
+  displayPokemon(filteredPokemon);
+});
+
+
 const fetchPokemons = async () => {
   for (let i = 1; i <= pokemon_count; i++) {
     await getPokemon(i);
@@ -36,6 +86,10 @@ const getPokemon = async (id) => {
   const data = await res.json();
   createPokemonCard(data)
 }
+
+
+
+
 
 const createPokemonCard=(pokemon) => {
     const pokemonEl=document.createElement('div')
